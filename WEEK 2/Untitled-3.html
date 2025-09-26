@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial</title>
+    <style>
+        body {
+            background-color: antiquewhite;
+        }
+
+        #one {
+            width: 250px;
+            padding: 20px;
+            margin-top: 100px;
+            background-color: white;
+            border-radius: 10px;
+        }
+    </style>
+    <script>
+        function fun1(event) {
+            event.preventDefault();
+            let n = document.getElementById("num").value;
+            n = parseInt(n);
+            let fact = 1;
+
+            for (let i = 1; i <= n; i++) {
+                fact *= i;
+            }
+
+            document.getElementById("two").innerText = "Factorial: " + fact;
+        }
+    </script>
+</head>
+
+<body>
+    <center>
+        <form id="one">
+            <label for="num">Enter Number:</label>
+            <input type="number" id="num">
+            <br><br>
+            <button onclick="fun1(event)">Submit</button>
+            <p id="two"></p>
+        </form>
+    </center>
+</body>
+
+</html>

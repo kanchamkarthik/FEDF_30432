@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Weather App</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #ff9966, #ff5e62);
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #ff5e62;
+        }
+
+        input,
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            border-color: #ff5e62;
+            outline: none;
+        }
+
+        button {
+            background: #ff5e62;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ff3b3f;
+        }
+
+        #tempResult {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: left;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Weather App</h1>
+        <input type="text" id="cityinput" placeholder="Enter city name" />
+        <button onclick="getWeather()">Get Weather</button>
+        <div id="tempResult"></div>
+    </div>
+
+    <script>
+        function getWeather() {
+            const city = document.getElementById("cityinput").value.trim();
+            const resultBox = document.getElementById("tempResult");
+
+            if (!city) {
+                alert("Enter a city");
+                resultBox.style.display = "none";
+                return;
+            }
+
+            resultBox.style.display = "block";
+            resultBox.innerText = "Loading...";
+
+            const url = `https://wttr.in/${encodeURIComponent(city)}?format=%l|%t|Humidity:%h|Wind:%w`;
+
+            fetch(url)
+                .then(r => r.text())
+                .then(text => {
+                    const parts = text.split("|");
+                    if (parts.length >= 4) {
+                        resultBox.innerHTML = `
+                            <p><b>Location:</b> ${parts[0]}</p>
+                            <p><b>Temperature:</b> ${parts[1]}</p>
+                            <p><b>${parts[2]}</b></p>
+                            <p><b>${parts[3]}</b></p>
+                        `;
+                    } else {
+                        resultBox.innerText = "Weather data not available.";
+                    }
+                })
+                .catch(() => {
+                    resultBox.innerText = "City not found.";
+                });
+        }
+    </script>
+</body>
+
+</html>
